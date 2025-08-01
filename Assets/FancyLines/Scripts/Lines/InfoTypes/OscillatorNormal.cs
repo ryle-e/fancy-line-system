@@ -1,14 +1,15 @@
-using CLines;
+using FancyLines.Utils;
 using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
-namespace CLines.Oscillation
+namespace FancyLines.Lines.InfoTypes
 {
     // a class to define a normal to displace along, and an oscillating function to find the value along that normal
     [System.Serializable]
-    public class DisplacementOscillatorNormal : IBendToTargetsLine.BendableNormal // this line can bend towards the target or origin
+    public class OscillatorNormal : BendableNormal, INormalInfo // this line can bend towards the target or origin
     {
         [Space(6)]
         public bool worldSpaceNormal; // should the displacement be along the normal in world or local space?
@@ -25,12 +26,44 @@ namespace CLines.Oscillation
         [AllowNesting, ShowIf("oscillator", OscillationUtils.Oscillator.Custom), CurveRange(0, -1, 1, 1)]
         public AnimationCurve customOscillator; // the clamped curve to use for custom oscillation
 
+        private Vector3 lastNormal;
+        private float lastDistance;
+        private float lastCompression;
+        private float lastOffset;
+
+        [HideInInspector] public bool keepChangedOffset = false;
+
+        
+        public string Name => $"Normal: ({normal.x},{normal.y},{normal.z}), Oscillator: {oscillator}";
+
+
         public void Validate()
         {
             if (normal == Vector3.zero)
                 normal = Vector3.up;
             else
                 normal = normal.normalized;
+        }
+
+        public void CaptureLast()
+        {
+            lastNormal = normal;
+            lastDistance = distance;
+            lastCompression = compression;
+            lastOffset = offset;
+        }
+
+        public void ApplyLast()
+        {
+            if (distance != lastDistance)
+                Debug.Log($"setting distance {distance} to {lastDistance}");
+
+            normal = lastNormal;
+            distance = lastDistance;
+            compression = lastCompression;
+
+            if (!keepChangedOffset)
+                offset = lastOffset;
         }
 
         public float EvaluateY(float _t, float _offset, float _compression)

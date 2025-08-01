@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace CLines.Oscillation
+namespace FancyLines.Utils
 {
 
     public static class OscillationUtils
@@ -12,6 +12,8 @@ namespace CLines.Oscillation
         public enum Oscillator
         {
             Sine,
+            PositiveSine,
+            NegativeSine,
             Triangle,
             ConcaveCurvedTriangle,
             ConvexCurvedTriangle,
@@ -28,6 +30,12 @@ namespace CLines.Oscillation
             {
                 case Oscillator.Sine:
                     return Mathf.Sin(_t);
+
+                case Oscillator.PositiveSine:
+                    return (1 + Mathf.Sin(_t))/2;
+
+                case Oscillator.NegativeSine:
+                    return -(1 + Mathf.Sin(_t))/2;
 
                 case Oscillator.Triangle:
                     return Mathf.Abs(((_t + 1) % 2) - 1) * 2 - 1;
@@ -66,6 +74,12 @@ namespace CLines.Oscillation
             switch (_oscillator)
             {
                 case Oscillator.Sine:
+                    return 2 * Mathf.Asin(1);
+
+                case Oscillator.PositiveSine:
+                    return 2 * Mathf.Asin(1);
+
+                case Oscillator.NegativeSine:
                     return 2 * Mathf.Asin(1);
 
                 case Oscillator.Triangle:

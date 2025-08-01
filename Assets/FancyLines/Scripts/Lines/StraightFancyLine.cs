@@ -1,11 +1,11 @@
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace CLines.Lines
+namespace FancyLines.Lines
 {
 
     [RequireComponent(typeof(LineRenderer))]
-    public class StraightCLine : CLine
+    public class StraightFancyLine : FancyLine
     {
         protected override void ModifyPoints(Vector3[] _inPoints, out Vector3[] _outPoints)
         {

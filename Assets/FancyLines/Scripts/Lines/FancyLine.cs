@@ -1,11 +1,12 @@
 using NaughtyAttributes;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace CLines.Lines
+namespace FancyLines.Lines
 {
 
-    public abstract class CLine : MonoBehaviour
+    public abstract class FancyLine : MonoBehaviour
     {
         [Foldout("Transforms")]
         [Tooltip("The object at the end of the line")]
@@ -82,6 +83,8 @@ namespace CLines.Lines
         protected virtual void OnReset() { } // called when the component is added or values are reset
         protected virtual void OnValidation() { } // called when a value is changed in the editor
 
+        protected virtual IEnumerator UpdateLoop() { yield return null; }
+
         protected abstract void ModifyPoints(Vector3[] _inPoints, out Vector3[] _outPoints);
 
 
@@ -90,6 +93,8 @@ namespace CLines.Lines
             GetLineComponent();
 
             OnStart();
+
+            StartCoroutine(UpdateLoop());
         }
 
         private void Reset()

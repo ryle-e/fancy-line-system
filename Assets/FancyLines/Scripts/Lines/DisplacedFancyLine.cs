@@ -1,34 +1,41 @@
+using FancyLines.Lines.InfoTypes;
 using NaughtyAttributes;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CLines.Lines
+namespace FancyLines.Lines
 {
-
     [RequireComponent(typeof(LineRenderer))]
-    public class NormalDisplacedCLine : CLine
+    public class DisplacedFancyLine : FancyLine
     {
-        [System.Serializable]
-        private class DisplacementNormal : IBendToTargetsLine.BendableNormal
-        {
-            [Space(6)]
-            public Vector3 normal;
-            public bool worldSpaceNormal;
-            public float distance;
-
-            [CurveRange(0, -1, 1, 1)]
-            public AnimationCurve displacement;
-        }
-
         [SerializeField] private List<DisplacementNormal> normals;
 
         protected override int DefaultResolution => 10;
 
         protected override void OnValidation()
         {
-            foreach (DisplacementNormal dN in normals)
+            foreach (DisplacementNormal n in normals)
+                n.Validate();
+        }
+
+        protected override void OnStart()
+        {
+            foreach (DisplacementNormal n in normals)
+                n.CaptureLast();
+        }
+
+        protected override IEnumerator UpdateLoop()
+        {
+            while (true)
             {
-                dN.normal = dN.normal.normalized;
+                foreach (DisplacementNormal n in normals)
+                    n.CaptureLast();
+
+                yield return new WaitForEndOfFrame();
+
+                foreach (DisplacementNormal n in normals)
+                    n.ApplyLast();
             }
         }
 
@@ -48,11 +55,9 @@ namespace CLines.Lines
                 float distanceToOrigin = Vector3.Distance(_inPoints[0], initialPoint);
                 float distanceToTarget = Vector3.Distance(_inPoints[1], initialPoint);
 
-                foreach (DisplacementNormal dN in normals)
+                foreach (DisplacementNormal n in normals)
                 {
-                    Vector3 addition = (!dN.worldSpaceNormal ? transform.rotation : Quaternion.identity) * (dN.displacement.Evaluate(t) * dN.distance * dN.normal);
-
-                    dN.ApplyBend(ref addition, t, distanceToOrigin, distanceToTarget);
+                    Vector3 addition = n.Evaluate(t, transform.rotation, distanceToOrigin, distanceToTarget);
 
                     point += addition;
                 }
@@ -61,5 +66,4 @@ namespace CLines.Lines
             }
         }
     }
-
 }
