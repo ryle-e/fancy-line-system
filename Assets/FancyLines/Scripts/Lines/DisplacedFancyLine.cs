@@ -1,5 +1,4 @@
 using FancyLines.Lines.InfoTypes;
-using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

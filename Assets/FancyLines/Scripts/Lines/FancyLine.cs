@@ -115,17 +115,26 @@ namespace FancyLines.Lines
             OnValidation();
         }
 
-        [Button("Force Update", EButtonEnableMode.Always)]
         private void Update()
         {
             if (getUpdatedPointsEveryFrame)
                 UpdateTargetAndOriginPositions();
 
-            if (updateLineEveryFrame)
-                UpdateLine();
-
             if (pointOriginAtTarget)
                 PointOriginAtTarget();
+        }
+
+        private void LateUpdate()
+        {
+            if (updateLineEveryFrame)
+                UpdateLine();
+        }
+
+        [Button("Force Update", EButtonEnableMode.Always)]
+        private void ForceUpdate()
+        {
+            Update();
+            LateUpdate();
         }
 
 

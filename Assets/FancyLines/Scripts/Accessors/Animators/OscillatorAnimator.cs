@@ -1,7 +1,6 @@
 using FancyLines.Lines;
 using FancyLines.Lines.InfoTypes;
 using NaughtyAttributes;
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 

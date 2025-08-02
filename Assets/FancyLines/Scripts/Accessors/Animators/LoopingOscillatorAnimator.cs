@@ -1,9 +1,5 @@
-using FancyLines.Lines;
-using FancyLines.Lines.InfoTypes;
 using FancyLines.Utils;
 using NaughtyAttributes;
-using NUnit.Framework;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LoopingOscillatorAnimator : OscillatorAnimator

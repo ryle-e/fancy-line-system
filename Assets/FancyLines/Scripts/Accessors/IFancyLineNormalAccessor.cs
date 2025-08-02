@@ -1,7 +1,5 @@
 using FancyLines.Lines.InfoTypes;
-using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEngine;
 
 public interface IFancyLineNormalAccessor
 {

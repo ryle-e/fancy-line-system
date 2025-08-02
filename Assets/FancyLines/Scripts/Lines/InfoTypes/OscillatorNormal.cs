@@ -1,8 +1,5 @@
 using FancyLines.Utils;
 using NaughtyAttributes;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 namespace FancyLines.Lines.InfoTypes
@@ -55,9 +52,6 @@ namespace FancyLines.Lines.InfoTypes
 
         public void ApplyLast()
         {
-            if (distance != lastDistance)
-                Debug.Log($"setting distance {distance} to {lastDistance}");
-
             normal = lastNormal;
             distance = lastDistance;
             compression = lastCompression;
