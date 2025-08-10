@@ -6,3 +6,6 @@ A package developed for use in Unity that allows for complex and quality usages 
 
 This package currently only supports lines that go between two points and displacement on those points, NOT bezier curves (yet- they'll be added soon :) )
 
+need to add:
+- difference in distance over course of line
+- difference in compression over course of line
